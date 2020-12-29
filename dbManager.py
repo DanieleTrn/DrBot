@@ -6,8 +6,9 @@ def getLastId(db): #return last record in db
     myCursor.execute("SELECT MAX(id_problema) from problemi")
 
     res = myCursor.fetchall()
+    index = int(res[0][0])
 
-    return res[0][0]
+    return index
 
 def searchSolutions(db,problem): #where "db" stands for database; "problem" a string which describe something to solve
     myCursor = db.cursor()
