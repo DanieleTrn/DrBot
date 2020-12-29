@@ -64,7 +64,8 @@ def handle(msg):
                 isHelping = False
 
         elif msg['text'] == "/rimuovi" and isHelping == False:
-            
+            #roba
+            print("ciao")
 
 
 db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")

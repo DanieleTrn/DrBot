@@ -30,8 +30,9 @@ def addSolutions(db,solution): #where db stands for database, solution a record 
     soluzione = "'"+solution[1]+"'"
     step = solution[2]
     isTecnico = solution[3]
-
-    myCursor.execute(f"INSERT INTO problemi(id_problema,sintomo,soluzione,step,isTecnico) VALUES ({idProblema},{sintomo},{soluzione},{step},{isTecnico})")
+    isDomanda = solution[4]
+    
+    myCursor.execute(f"INSERT INTO problemi(id_problema,sintomo,soluzione,step,isTecnico,isDomanda) VALUES ({idProblema},{sintomo},{soluzione},{step},{isTecnico},{isDomanda})")
 
     db.commit()
 
