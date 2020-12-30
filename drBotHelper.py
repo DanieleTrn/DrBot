@@ -62,11 +62,8 @@ def handle(msg):
                 stepDB = 0
                 isTecnico = False
                 isHelping = False
-
         elif msg['text'] == "/rimuovi" and isHelping == False:
-            #roba
-            print("ciao")
-
+            print("aho")
 
 db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")
 

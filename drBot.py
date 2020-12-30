@@ -9,6 +9,7 @@ isHelping = False
 res = []
 nSolution = 0
 lenRes = 0
+
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
 
@@ -54,7 +55,6 @@ def handle(msg):
                     else:
                         bot.sendMessage(chat_id,"Proviamo qualcos'altro, scrivi qualsiasi cosa quando sei pronto...")
                         step += 1
-
 
 db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")
 

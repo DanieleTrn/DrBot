@@ -21,6 +21,23 @@ def searchSolutions(db,problem): #where "db" stands for database; "problem" a st
 
     return res
 
+def lookForSteps(db,step,sintomo):
+
+    myCursor = db.cursor()
+
+    formatText = "'" + sintomo + "'"
+
+    myCursor.execute(f"SELECT sintomo,step FROM problemi WHERE problemi.sintomo = {formatText};")
+    res = myCursor.fetchall()
+    print(res)
+    
+    for x in res:
+        if x[1] == step:
+            return False
+
+    return True
+    
+
 def addSolutions(db,solution): #where db stands for database, solution a record to insert into it
 
     myCursor = db.cursor()
@@ -30,13 +47,22 @@ def addSolutions(db,solution): #where db stands for database, solution a record 
     soluzione = "'"+solution[1]+"'"
     step = solution[2]
     isTecnico = solution[3]
-    isDomanda = solution[4]
+    isDomanda = 0
     
     myCursor.execute(f"INSERT INTO problemi(id_problema,sintomo,soluzione,step,isTecnico,isDomanda) VALUES ({idProblema},{sintomo},{soluzione},{step},{isTecnico},{isDomanda})")
 
     db.commit()
 
+    if lookForSteps(db,solution[2],solution[0]) == True:
+        changeLaterSteps(db,solution[2])
+
     return "Contenuto aggiunto con successo!"
+
+def changeLaterSteps(db,step):
+
+    myCursor = db.cursor()
+
+    res = myCursor.execute(f"UPDATE problemi SET step = (step+1) WHERE problemi.step >= {step};")
 
 def removeSolution(db,idSolution):
 
