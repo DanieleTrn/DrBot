@@ -58,7 +58,7 @@ def addSolutions(db,solution): #Where db stands for database, solution a record 
 
     return "Contenuto aggiunto con successo!"
 
-def changeLaterSteps(db,newStep): #Increase by one value every record with column step greater (or equal) than the attribute "newStep".
+def changeLaterSteps(db,newStep): #Increase by one value every record with column step greater (or equal) than the attribute "newStep"
 
     myCursor = db.cursor()
 

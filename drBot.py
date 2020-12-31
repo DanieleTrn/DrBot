@@ -21,7 +21,7 @@ def handle(msg):
         global nSolution
         global lenRes
         
-        #TEST###
+        ##TEST###
         if msg['text'] == "start":
             bot.sendMessage(chat_id,"Ehi,dimmi il tuo problema!")
             nSolution = 0
