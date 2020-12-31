@@ -1,6 +1,6 @@
 import mysql.connector
 
-def getLastId(db): #return last record in db
+def getLastId(db): #Return last record in db
     myCursor = db.cursor()
 
     myCursor.execute("SELECT MAX(id_problema) from problemi")
@@ -10,7 +10,7 @@ def getLastId(db): #return last record in db
 
     return index
 
-def searchSolutions(db,problem): #where "db" stands for database; "problem" a string which describe something to solve
+def searchSolutions(db,problem): #Where "db" stands for database; "problem" a string which describe something to solve
     myCursor = db.cursor()
 
     problemFormat = "'"+problem+"'"
@@ -21,7 +21,7 @@ def searchSolutions(db,problem): #where "db" stands for database; "problem" a st
 
     return res
 
-def lookForSteps(db,step,sintomo):
+def lookForSteps(db,step,sintomo): #Return true if a step already exist in a symptom
 
     myCursor = db.cursor()
 
@@ -33,36 +33,38 @@ def lookForSteps(db,step,sintomo):
     
     for x in res:
         if x[1] == step:
-            return False
+            return False #An equal step has been found
 
-    return True
+    return True #Every step is different from the one we have given
     
 
-def addSolutions(db,solution): #where db stands for database, solution a record to insert into it
+def addSolutions(db,solution): #Where db stands for database, solution a record to insert into it
 
     myCursor = db.cursor()
 
     idProblema = getLastId(db) + 1
-    sintomo = "'"+solution[0]+"'"
-    soluzione = "'"+solution[1]+"'"
+    sintomo = solution[0]
+    soluzione = solution[1]
     step = solution[2]
     isTecnico = solution[3]
     isDomanda = 0
     
-    myCursor.execute(f"INSERT INTO problemi(id_problema,sintomo,soluzione,step,isTecnico,isDomanda) VALUES ({idProblema},{sintomo},{soluzione},{step},{isTecnico},{isDomanda})")
-
-    db.commit()
-
     if lookForSteps(db,solution[2],solution[0]) == True:
         changeLaterSteps(db,solution[2])
 
+    myCursor.execute(f"INSERT INTO problemi(id_problema,sintomo,soluzione,step,isTecnico,isDomanda) VALUES ({idProblema},'{sintomo}','{soluzione}',{step},{isTecnico},{isDomanda})")
+
+    db.commit()
+
     return "Contenuto aggiunto con successo!"
 
-def changeLaterSteps(db,step):
+def changeLaterSteps(db,newStep): #Increase by one value every record with column step greater (or equal) than the attribute "newStep"
 
     myCursor = db.cursor()
 
-    res = myCursor.execute(f"UPDATE problemi SET step = (step+1) WHERE problemi.step >= {step};")
+    res = myCursor.execute(f"UPDATE problemi SET step = (step+1) WHERE problemi.step >= {newStep};")
+
+    db.commit()
 
 def removeSolution(db,idSolution):
 
