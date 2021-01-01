@@ -10,6 +10,12 @@ def getLastId(db): #Return last record in db
 
     return index
 
+def getSymptoms(db,deviceType):
+
+    myCursor = db.cursor()
+
+    myCursor.execute(f"SELECT distinct sintomo FROM problemi WHERE problemi.dispositivo = '{deviceType}')
+
 def searchSolutions(db,problem): #Where "db" stands for database; "problem" a string which describe something to solve
     myCursor = db.cursor()
 
@@ -25,20 +31,16 @@ def lookForSteps(db,step,sintomo): #Return true if a step already exist in a sym
 
     myCursor = db.cursor()
 
-    formatText = "'" + sintomo + "'"
-
-    myCursor.execute(f"SELECT sintomo,step FROM problemi WHERE problemi.sintomo = {formatText};")
+    myCursor.execute(f"SELECT sintomo,step FROM problemi WHERE problemi.sintomo = '{sintomo}';")
     res = myCursor.fetchall()
-    print(res)
     
     for x in res:
         if x[1] == step:
             return False #An equal step has been found
 
-    return True #Every step is different from the one we have given
-    
+    return True #Every step is different from the ones we've given
 
-def addSolutions(db,solution): #Where db stands for database, solution a record to insert into it
+def addSolutions(db,solution): #Where db stands for database, solution stands for a record to insert into the database
 
     myCursor = db.cursor()
 
@@ -58,7 +60,7 @@ def addSolutions(db,solution): #Where db stands for database, solution a record 
 
     return "Contenuto aggiunto con successo!"
 
-def changeLaterSteps(db,newStep): #Increase by one value every record with column step greater (or equal) than the attribute "newStep"
+def changeLaterSteps(db,newStep): #For every record with a column step greater or equal to the attribute NewStep, increase the value by one
 
     myCursor = db.cursor()
 

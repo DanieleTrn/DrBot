@@ -22,7 +22,9 @@ def handle(msg):
 
     if content_type == "text":
 
+        #step 1: ask device type - step2: ask symptom - step 3: ask solution - step 4: ask step - step 5: ask Istech - step 6: ask isQuestion
         if msg['text'] == "/aggiungi" and isHelping == False:
+
             isHelping = True
             if step == 1 and isHelping == True:
                 bot.sendMessage(chat_id,"Inserisci il sintomo")
@@ -76,4 +78,3 @@ print("Listening...")
 
 while 1:
     time.sleep(100)
-    
