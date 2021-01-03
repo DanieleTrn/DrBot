@@ -1,0 +1,16 @@
+SELECT * FROM dispositivo WHERE id_os = "Windows10" and dispositivo = "PC";
+
+---SELEZIONA il dispositivo che ci interessa (id è nella posizione 0)----
+
+
+SELECT distinct id_sintomo from sintomo where id_dispositivo = 1 
+
+---Mostra tutti i sintomi di quel determinato dispositivo---
+
+SELECT distinct id_os from os;
+
+---Mostra tutti i sistemi operativi presenti---
+
+SELECT * FROM soluzione WHERE id_dispositivo = 1 and id_sintomo = "pc spento" order by step asc;
+
+---RACCOGLIE tutte le soluzioni di un determinato dispositivo e sintomo ordinati per step---
