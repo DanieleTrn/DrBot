@@ -17,6 +17,17 @@ def getLastId(db): #Return last record in db
     #TODO
 ###############################################################################
 
+def getOs(db):
+    myCursor = db.cursor()
+
+    myCursor.execute("SELECT distinct id_os from os")
+
+    res = myCursor.fetchall()
+
+    res = formatArray(res)
+
+    return res
+
 def getDevices(db):
     myCursor = db.cursor()
 
@@ -29,7 +40,24 @@ def getDevices(db):
 
     return res
 
+def getDeviceId(db,datas):
+    myCursor = db.cursor()
+    myCursor.execute(f"SELECT * FROM dispositivo WHERE dispositivo='{datas[0]}' and id_os='{datas[1]}'")
+
+    res = myCursor.fetchall()
+    
+    if len(res) == 0:
+        return -1
+
+    res = res[0][0]
+
+    return res
+
+
 def getSymptoms(db,deviceType):
+
+    print(deviceType)
+
     myCursor = db.cursor()
 
     myCursor.execute(f"SELECT distinct id_sintomo from sintomo where id_dispositivo = {deviceType}")
@@ -55,6 +83,9 @@ def getSolutions(db, idDevice, idSymptom):
 
     res = myCursor.fetchall()
 
+    if len(res) == 0:
+        return -1
+        
     return res
     
 def lookForSteps(db,step,symptom): #Return true if a step already exist in a symptom
@@ -80,7 +111,7 @@ def changeLaterSteps(db,newStep): #For every record with a column step greater o
 
     myCursor = db.cursor()
 
-    res = myCursor.execute(f"UPDATE soluzione SET step = (step+1) WHERE soluzione.step >= {newStep};")
+    myCursor.execute(f"UPDATE soluzione SET step = (step+1) WHERE soluzione.step >= {newStep};")
 
     db.commit()
 
