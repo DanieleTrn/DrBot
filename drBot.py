@@ -98,7 +98,6 @@ def on_callback_query(msg):
         isTakingInfo = False
         handle(skip)
 
-    #msg = {'id': '1568532884453601576', 'from': {'id': 365202521, 'is_bot': False, 'first_name': 'Daniele', 'username': 'DanieleTroll', 'language_code': 'it'}, 'message': {'message_id': 374, 'from': {'id': 1414329712, 'is_bot': True, 'first_name': 'DrBot', 'username': 'ProvaTrollBot'}, 'chat': {'id': 365202521, 'first_name': 'Daniele', 'username': 'DanieleTroll', 'type': 'private'}, 'date': 1609931379, 'text': 'Seleziona il dispositivo', 'reply_markup': {'inline_keyboard': [[{'text': 'PC', 'callback_data': 'PC'}], [{'text': 'Smartphone', 'callback_data': 'Smartphone'}]]}}, 'chat_instance': '7955297441696572816', 'data': 'PC'}
 
 db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")
 
