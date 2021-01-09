@@ -1,16 +1,5 @@
 import mysql.connector
 
-#Methods:
-#getLastId() TODO
-#getDevices(database db) it returns every devices on our db
-#getSymptoms(database db, int devicetype) 
-#getSolutions()TODO
-#lookForSteps(database db, int step, String sintomo)
-#addSolution() TODO
-#changeLaterSteps(database db, int newStep)
-#removeSolution() TODO
-#formatArray(array[] res)
-
 ###############################################################################
 def getLastId(db): #Return last record in db
     print("Ciao")

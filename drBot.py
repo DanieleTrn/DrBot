@@ -13,6 +13,7 @@ res = []
 nSolution = 0
 lenRes = 0
 isTakingInfo = True
+skip = {}
 
 def handle(msg):
 
@@ -24,8 +25,10 @@ def handle(msg):
     global lenRes
     global datas
     global isTakingInfo
-
+    global skip
+    
     content_type, chat_type, chat_id = telepot.glance(msg)
+    skip = getSkipMsg(msg)
     #keyboard = InlineKeyboardMarkup(inline_keyboard= [
                #[InlineKeyboardButton(text="Cliccami",callback_data="press")],
                 #])
@@ -93,10 +96,8 @@ def on_callback_query(msg):
     if(isTakingInfo == True):
         datas.append(query_data)
         isTakingInfo = False
+        handle(skip)
 
-    bot.answerCallbackQuery(query_id,text="Perfetto! scrivi qualsiasi cosa per continuare")
-
-    #query_data = data value from the button; i.e="PC"
     #msg = {'id': '1568532884453601576', 'from': {'id': 365202521, 'is_bot': False, 'first_name': 'Daniele', 'username': 'DanieleTroll', 'language_code': 'it'}, 'message': {'message_id': 374, 'from': {'id': 1414329712, 'is_bot': True, 'first_name': 'DrBot', 'username': 'ProvaTrollBot'}, 'chat': {'id': 365202521, 'first_name': 'Daniele', 'username': 'DanieleTroll', 'type': 'private'}, 'date': 1609931379, 'text': 'Seleziona il dispositivo', 'reply_markup': {'inline_keyboard': [[{'text': 'PC', 'callback_data': 'PC'}], [{'text': 'Smartphone', 'callback_data': 'Smartphone'}]]}}, 'chat_instance': '7955297441696572816', 'data': 'PC'}
 
 db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")
