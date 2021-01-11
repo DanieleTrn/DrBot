@@ -4,6 +4,7 @@ import mysql.connector
 from dbManager import *
 from utils import *
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
+from telepot.loop import MessageLoop
 
 datas = []
 step = 1
@@ -104,7 +105,10 @@ db = mysql.connector.connect(host="localhost", user="root", password="", databas
 TOKEN = '1414329712:AAHUIof6BrcAWIBz7hgZqz_-tmXBb_lyPwI'
 bot = telepot.Bot(TOKEN)
 
-bot.message_loop({"chat": handle, "callback_query": on_callback_query})
+#bot.message_loop({"chat": handle, "callback_query": on_callback_query}).run_as_thread()
+#MessageLoop(bot).run_as_thread()
+MessageLoop(bot, {'chat': handle,
+                  'callback_query': on_callback_query}).run_as_thread()
 print("Listening...")
 
 while 1:
