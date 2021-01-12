@@ -30,9 +30,6 @@ def handle(msg):
     
     content_type, chat_type, chat_id = telepot.glance(msg)
     skip = getSkipMsg(msg)
-    #keyboard = InlineKeyboardMarkup(inline_keyboard= [
-               #[InlineKeyboardButton(text="Cliccami",callback_data="press")],
-                #])
     
     keyboardDevices = getKeyboard(getDevices(db)) #inlineKeyboard with button taken by database's devices
     if content_type == "text":
@@ -99,16 +96,19 @@ def on_callback_query(msg):
         isTakingInfo = False
         handle(skip)
 
+#Put your db's info where value is "xxx"
+db = mysql.connector.connect(host="xxx", 
+                             user="xxx", 
+                             password="", 
+                             database="xxx")
 
-db = mysql.connector.connect(host="localhost", user="root", password="", database="drbot")
+TOKEN = #Put your bot's token here
 
-TOKEN = '1414329712:AAHUIof6BrcAWIBz7hgZqz_-tmXBb_lyPwI'
 bot = telepot.Bot(TOKEN)
 
-#bot.message_loop({"chat": handle, "callback_query": on_callback_query}).run_as_thread()
-#MessageLoop(bot).run_as_thread()
 MessageLoop(bot, {'chat': handle,
                   'callback_query': on_callback_query}).run_as_thread()
+
 print("Listening...")
 
 while 1:

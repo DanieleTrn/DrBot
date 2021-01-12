@@ -1,11 +1,5 @@
 import mysql.connector
 
-###############################################################################
-def getLastId(db): #Return last record in db
-    print("Ciao")
-    #TODO
-###############################################################################
-
 def getOs(db):
     myCursor = db.cursor()
 
@@ -29,7 +23,7 @@ def getDevices(db):
 
     return res
 
-def getDeviceId(db,datas):
+def getDeviceId(db,datas): 
     myCursor = db.cursor()
     myCursor.execute(f"SELECT * FROM dispositivo WHERE dispositivo='{datas[0]}' and id_os='{datas[1]}'")
 
@@ -90,12 +84,6 @@ def lookForSteps(db,step,symptom): #Return true if a step already exist in a sym
 
     return True #Every step is different from the ones we've given
 
-###################################################################################
-def addSolutions(db): #Where db stands for database
-    print("Ciao")
-    #TODO
-##################################################################################
-
 def changeLaterSteps(db,newStep): #For every record with a column step greater or equal to the attribute NewStep, increase the value by one
 
     myCursor = db.cursor()
@@ -103,9 +91,3 @@ def changeLaterSteps(db,newStep): #For every record with a column step greater o
     myCursor.execute(f"UPDATE soluzione SET step = (step+1) WHERE soluzione.step >= {newStep};")
 
     db.commit()
-
-#################################################################################
-def removeSolution():
-    print("Ciao")
-    #TODO
-#################################################################################

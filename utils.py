@@ -3,7 +3,7 @@ import telepot
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from dbManager import *
 
-def getKeyboard(items):
+def getKeyboard(items): 
         buttons = []
         for i in range(0,len(items)):
             button = [InlineKeyboardButton(text=f"{items[i]}", callback_data = f"{items[i]}")]
