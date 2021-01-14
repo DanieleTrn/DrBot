@@ -39,8 +39,6 @@ def getDeviceId(db,datas):
 
 def getSymptoms(db,deviceType):
 
-    print(deviceType)
-
     myCursor = db.cursor()
 
     myCursor.execute(f"SELECT distinct id_sintomo from sintomo where id_dispositivo = {deviceType}")
