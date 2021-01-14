@@ -6,15 +6,21 @@ from utils import *
 from telepot.namedtuple import InlineKeyboardMarkup, InlineKeyboardButton
 from telepot.loop import MessageLoop
 
-datas = []
+datas = [] #Qui andremo a collezionare le informazioni necessarie al bot
+
+#Variabili utilizzate per iterare le varie soluzioni proposte dal bot
 step = 1
 stepPrec = 1
-isHelping = False
-solutions = []
+
+isHelping = False #Flag che indica se il nostro bot è "in servizio"
+solutions = [] #Qui vengono immagazzinati i record delle soluzioni proposte
+
+#Variabili che andremo a utilizzare per iterare le soluzioni raccolte dal bot
 nSolution = 0
 lenRes = 0
-isTakingInfo = True
-skip = {}
+
+isTakingInfo = True #Flag utilizzata per limitare errori dovuti a click errati nelle InlineKeyboard dall'utente
+skip = {} #Un dizionario che andrà ad automatizzare determinati dialoghi (vedi riga 35)
 
 def handle(msg):
 
@@ -29,10 +35,12 @@ def handle(msg):
     global lenRes
 
     content_type, chat_type, chat_id = telepot.glance(msg)
-    skip = getSkipMsg(msg)
+    skip = getSkipMsg(msg) #Variabile utilizzata per inviare messaggi falsi al bot per automatizzare dialoghi
     
     keyboardDevices = getKeyboard(getDevices(db)) #inlineKeyboard with button taken by database's devices
     if content_type == "text":
+
+        #Da qui il bot capirà quale risposta dare all'utente in base ai dati collezionati nella variabile datas.
 
         if msg["text"] == "/start" and isHelping == False:
             bot.sendMessage(chat_id,"Ehi, DrBot al tuo servizio! Mi serviranno un pò di info riguardo il paziente, tranquillo, saranno poche domande")
@@ -84,6 +92,10 @@ def handle(msg):
 
                 handle(skip)
 
+            #Da qui le informazioni sono iterate seguendo questa logica:
+            #Se step è maggiore di stepPrec significa che sto mandando una soluzione, aumento stepPrec, se sono uguali
+            #il bot sta aspettando una risposta dall'utente che in base ad essa capirà se inviare una ulteriore soluzione o no
+            #se dovessero terminare le soluzioni, il bot invierà un messaggio al "tecnico". 
             elif(step == stepPrec + 1 and isHelping == True):
 
                 bot.sendMessage(chat_id,solutions[nSolution][3])
@@ -93,7 +105,7 @@ def handle(msg):
 
             elif (step == stepPrec and isHelping == True):
 
-                formatMsg = msg['text'].lower()
+                formatMsg = msg['text'].lower() #formatto la risposta in minuscolo per garantire una risposta (se pertinente)
 
                 if(formatMsg == "si" or formatMsg == "yes" or formatMsg == "y"):
 
@@ -120,9 +132,11 @@ def handle(msg):
                         step += 1
                         handle(skip)
 
-        elif msg["text"] == "/stop":
+        elif msg["text"] == "/stop": #Interrompe la sessione con l'utente.
             if isHelping:
                 bot.sendMessage(chat_id, "Ok, interrompiamo tutto!")
+
+                #Pulisco ogni variabile.
                 datas = []
                 isHelping = False
                 nSolution = 0
@@ -137,17 +151,13 @@ def handle(msg):
 def on_callback_query(msg):
 
     global isTakingInfo
-    print(datas)
-    print(isHelping)
-    print(solutions)
-    print(nSolution)
 
     query_id, from_id, query_data = telepot.glance(msg, flavor="callback_query")
 
     if(isTakingInfo == True):
-        datas.append(query_data)
-        isTakingInfo = False
-        handle(skip)
+        datas.append(query_data) #colleziono l'informazione di cui ho bisogno
+        isTakingInfo = False #Il pulsante è stato selezionato, questa variabile rimarrà falsa finchè non si presenterà una nuova tastiera
+        handle(skip) #Il pulsante è stato selezionato, invio un messaggio per provocare una risposta automatica dal bot
 
 #Put your db's info where value is "xxx"
 db = mysql.connector.connect(host="xxx", user="xxx", password="", database="xxx")

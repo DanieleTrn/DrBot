@@ -1,6 +1,6 @@
 import mysql.connector
 
-def getOs(db):
+def getOs(db): #Ottengo ogni tipo di Os contenuto nel mio database
     myCursor = db.cursor()
 
     myCursor.execute("SELECT distinct id_os from os")
@@ -11,7 +11,7 @@ def getOs(db):
 
     return res
 
-def getDevices(db):
+def getDevices(db): #Ottengo ogni dispositivo contenuto nel mio database
     myCursor = db.cursor()
 
     myCursor.callproc("getDevices")
@@ -23,7 +23,7 @@ def getDevices(db):
 
     return res
 
-def getDeviceId(db,datas): 
+def getDeviceId(db,datas): # Ritorna l'id di un determinato dispositivo
     myCursor = db.cursor()
     myCursor.execute(f"SELECT * FROM dispositivo WHERE dispositivo='{datas[0]}' and id_os='{datas[1]}'")
 
@@ -37,7 +37,7 @@ def getDeviceId(db,datas):
     return res
 
 
-def getSymptoms(db,deviceType):
+def getSymptoms(db,deviceType): #Ottengo ogni sintomo di un determinato dispositivo(deviceType) nel mio database
 
     myCursor = db.cursor()
 
@@ -49,7 +49,7 @@ def getSymptoms(db,deviceType):
 
     return res
 
-def formatArray(res):
+def formatArray(res): #"Pulisco" l'array contenente i record
 
     for i in range(0,len(res)):
         value = res[i][0]
@@ -57,7 +57,7 @@ def formatArray(res):
 
     return res
 
-def getSolutions(db, idDevice, idSymptom):
+def getSolutions(db, idDevice, idSymptom): #Ottengo soluzioni dal mio database a seconda del dispositivo e sintomo
     myCursor = db.cursor()
 
     myCursor.execute(f"SELECT * FROM soluzione WHERE id_dispositivo = {idDevice} and id_sintomo = '{idSymptom}' order by step asc;")
@@ -69,6 +69,7 @@ def getSolutions(db, idDevice, idSymptom):
         
     return res
     
+########## METODI STUDIATI PER UN EVENTUALE SITO PER "SUPERVISORI" DEL BOT (al momento inutili) ###################################
 def lookForSteps(db,step,symptom): #Return true if a step already exist in a symptom
 
     myCursor = db.cursor()
