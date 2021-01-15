@@ -20,7 +20,7 @@ nSolution = 0
 lenRes = 0
 
 isTakingInfo = True #Flag utilizzata per limitare errori dovuti a click errati nelle InlineKeyboard dall'utente
-skip = {} #Un dizionario che andrà ad automatizzare determinati dialoghi (vedi riga 35)
+skip = {} #Un dizionario che andrà ad automatizzare determinati dialoghi (vedi riga 38)
 
 def handle(msg):
 
